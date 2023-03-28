@@ -5,11 +5,14 @@ WIDTH,HEIGHT=800,600
 
 # game speed/frames per second
 fps=60
+
 #icon
 icon = pygame.image.load("./assets/art/icon.png")
+
 #background
 bg = pygame.image.load("./assets/art/bg.png")
 #------------------------------------------------#
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
