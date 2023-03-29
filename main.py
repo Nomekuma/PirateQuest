@@ -1,16 +1,23 @@
 import pygame,sys
 from settings import *
-from world_tile import tile
+from level import level
+
 
 # pygame setup
 pygame.init()
+
+#Screen Size
 width=1200
-height=600
+height=550
+
+# game fps/frames per second
 fps=60
+
+# create screen
 screen=pygame.display.set_mode((width,height))
 pygame.display.set_caption("TerraBlock")
 clock=pygame.time.Clock()
-test_tile= pygame.sprite.Group(tile((100,100),200))
+level = level(level_map,screen)
 
 # colors
 black=(0,0,0)
@@ -23,7 +30,8 @@ while True:
             sys.exit()
     # draw
     screen.fill(black)
-    test_tile.draw(screen)
+    level.run()
+    
     # update
     pygame.display.update()
     clock.tick(fps)
