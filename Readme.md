@@ -1,11 +1,1 @@
-
-# TerraBlock
-
-## GAME NOT COMPLETED YET
-
-| Hoykey | Description |
-| :--: | :--: |
-| W | moves upwards |
-| A | moves left |
-| D | moves right |
-| S | moves down | 
+assets:PixelFrog[https://pixelfrog-assets.itch.io/treasure-hunters/download/eyJleHBpcmVzIjoxNjgwMTAyNDEzLCJpZCI6NTM3NTk5fQ%3d%3d.vLUevHNA6C4cWhPByw%2bGxOQHl%2bA%3d]

@@ -1,32 +1,25 @@
-import pygame
-from menu import MenuButton
+import pygame,sys
 
-
+# pygame setup
 pygame.init()
-# Window
-Width, Height = 800, 600
-win = pygame.display.set_mode((Width, Height))
-
-# Caption
+Width=1200
+Height=600
+fps=60
+screen=pygame.display.set_mode((Width,Height))
 pygame.display.set_caption("TerraBlock")
+clock=pygame.time.Clock()
 
-# Icon
-icon = pygame.image.load("./Terraria_lite/assets/art/icon.png")
-pygame.display.set_icon(icon)
-
-def main():
-    run = True
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-        win.fill((0, 0, 0))
-                
-
-        pygame.display.update()
-
-__name__ == "__main__" 
-main()
-
-
-
+# colors
+black=(0,0,0)
+# game loop
+while True:
+    # event loop
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    # draw
+    screen.fill(black)
+    # update
+    pygame.display.update()
+    clock.tick(fps)
