@@ -1,47 +1,32 @@
 import pygame
-from character import sprites
-# screen size
-WIDTH,HEIGHT=800,600
+from menu import MenuButton
 
-# game speed/frames per second
-fps=60
 
-#icon
-icon = pygame.image.load("./assets/art/icon.png")
+pygame.init()
+# Window
+Width, Height = 800, 600
+win = pygame.display.set_mode((Width, Height))
 
-#background
-bg = pygame.image.load("./assets/art/bg.png")
-#------------------------------------------------#
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
-
-# set icon/displays icon
-pygame.display.set_icon(icon)
-# set display name
+# Caption
 pygame.display.set_caption("TerraBlock")
 
-# set background
-def bg_1(bg):
-    size=pygame.transform.scale(bg,(800,500))
-    screen.blit(size,(0,0))
+# Icon
+icon = pygame.image.load("./Terraria_lite/assets/art/icon.png")
+pygame.display.set_icon(icon)
 
-
-# main loop
 def main():
-    run=True
+    run = True
     while run:
-        clock.tick(fps)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        screen.fill((0,0,0))
-        bg_1(bg)
-        sprites.update()
-        sprites.draw(screen)
+        win.fill((0, 0, 0))
+                
+
         pygame.display.update()
-    
-    pygame.quit()
-    
-if __name__ == "__main__":
-    main()    
+
+__name__ == "__main__" 
+main()
+
+
+
