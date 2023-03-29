@@ -2,10 +2,10 @@ import pygame,sys
 
 # pygame setup
 pygame.init()
-Width=1200
-Height=600
+width=1200
+height=600
 fps=60
-screen=pygame.display.set_mode((Width,Height))
+screen=pygame.display.set_mode((width,height))
 pygame.display.set_caption("TerraBlock")
 clock=pygame.time.Clock()
 
