@@ -17,4 +17,3 @@ tile_size = 64
 width = 1200
 # height is calculated based on the level map/it is relative to the level map
 height = len(level_map) * tile_size
-print(height)
