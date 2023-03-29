@@ -1,3 +1,3 @@
 Game_Not_complete_Yet
 
-assets:PixelFrog[https://pixelfrog-assets.itch.io/treasure-hunters/download/eyJleHBpcmVzIjoxNjgwMTAyNDEzLCJpZCI6NTM3NTk5fQ%3d%3d.vLUevHNA6C4cWhPByw%2bGxOQHl%2bA%3d]
+assets:[PixelFrog](https://pixelfrog-assets.itch.io/treasure-hunters/download/eyJleHBpcmVzIjoxNjgwMTAyNDEzLCJpZCI6NTM3NTk5fQ%3d%3d.vLUevHNA6C4cWhPByw%2bGxOQHl%2bA%3d)
