@@ -11,7 +11,7 @@ level_map = [
 '       X  XXXX    XX  XXX   ',
 '    XXXX  XXXXXX  XX  XXXX  ',
 'XXXXXXXX  XXXXXX  XX  XXXX  ']
-
+#------------------------------------------------------------------------------------------------
 # pixel size of each tile
 tile_size = 55
 width = 1200

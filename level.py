@@ -15,22 +15,22 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
         # dust
         self.dust_sprite=pygame.sprite.GroupSingle()# Create a group of dust particles
         self.player_on_ground=False # Check if the player is on the ground
-  
+    # jump_particles
     def create_jump_particles(self,pos):
         if self.player.sprite.facing_right:
             pos -= pygame.math.Vector2(10,5)
         else:
             pos += pygame.math.Vector2(10,-5)
-            
+            # Create the jump particles
         jump_particle_sprite=ParticleEffect(pos,'jump')
         self.dust_sprite.add(jump_particle_sprite)
-
+    # Check if the player is on the ground
     def get_player_on_ground(self,):# Check if the player is on the ground
         if self.player.sprite.on_ground:
             self.player_on_ground=True
         else:
             self.player_on_ground=False
-
+    # Landing dust/layers
     def create_landing_dust(self):# Create dust particles when the player lands
         if not self.player_on_ground and self.player.sprite.on_ground and not self.dust_sprite.sprite:# If the player is on the ground
             if self.player.sprite.facing_right:
@@ -39,34 +39,32 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
                 offset=pygame.math.Vector2(-10,15)
             fall_dust_particles=ParticleEffect(self.player.sprite.rect.midbottom - offset,'land')# Create the dust particles
             self.dust_sprite.add(fall_dust_particles)# Add the dust particles to the dust sprite group
-
+    # Map/Player setup
     def setup_level(self,layout):# layout is the level map
         self.tiles=pygame.sprite.Group() # Create a group of tiles
         self.player=pygame.sprite.GroupSingle()# Create a group of player
-
+         # Loop through the level map
         for row_index,row in enumerate(layout):
-             #print(row) # Print each row(from level_map)./see settings.py
+            #print(row) # Print each row(from level_map)./see settings.py
             # print(row_index) # Print the index of each row./see settings.py
-     
+            # Loop through each cell in the row-----------------------------------
             for col_index,cell in enumerate(row):
                 x=col_index*tile_size# x is relative to the column index
                 y=row_index*tile_size# y is relative to the row index
-                
                 # print(f'row:{row_index},col:{col_index},cell:{cell}') # Print the index of each row./see settings.py
-                
+                # Looks for 'X' in the level map
                 if cell == 'X':# If the cell is an X(Tiles)
                     Tile = tile((x,y),tile_size)
                     self.tiles.add(Tile)
-                
+                # Looks for 'P' in the level map
                 if cell == 'P':# If the cell is an P(Player)
                     player_sprite=Player((x,y),self.display_surface,self.create_jump_particles)
                     self.player.add(player_sprite)
-
+    # Camera/world shift
     def scroll_x(self):# Scroll the level in the x direction
         player=self.player.sprite
         player_x=player.rect.centerx
-        direction_x=player.direction.x    
-         
+        direction_x=player.direction.x     
         # Scroll the level in the x direction
         # if player_x <200 and direction_x<0:# If the player is less than 200 pixels from the left side of the screen
         if player_x <width*0.75 and direction_x<0:
@@ -79,7 +77,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
         else:
             self.world_shift=0
             player.speed=5
-      
+    # horizontal_movement_collision
     def horizontal_movement_collision(self):# Check for collision with the level tiles
         player=self.player.sprite
         player.rect.x += player.direction.x * player.speed # Move the player 5 pixels to the left/right
@@ -94,12 +92,12 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
                     player.rect.right = sprite.rect.left 
                     player.on_right=True
                     self.current_x=player.rect.right# The current x position of the player
-
+        # Check if the player is on the left/right side of the tile
         if player.on_right and (player.rect.right>self.current_x or player.direction.x <=0):# If the player is on the right side of the tile
             player.on_right=False
         if player.on_left and (player.rect.left<self.current_x or player.direction.x >=0):
             player.on_left=False
-        
+    # vertical_movement_collision   
     def vertical_movement_collision(self):# Check for collision with the level tiles vertically
         player=self.player.sprite
         player.apply_gravity() # Apply gravity method # Move the player 5 pixels up/down
@@ -121,18 +119,15 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
         # Check if the player is on the ceiling or falling
         if player.on_ceiling and player.direction.y >0:
             player.on_ceiling=False
-   #  Run method
+   # load/render/run
     def run(self): 
-        
         # dust_particles
         self.dust_sprite.update(self.world_shift)# Update the dust particles
         self.dust_sprite.draw(self.display_surface)# Draw the dust particles
- 
         # level tiles
         self.tiles.update(self.world_shift)# x_shift is the amount of pixels the player moves
         self.tiles.draw(self.display_surface)# Draw the tiles
         self.scroll_x()# Scroll the level in the x direction
-
         # player
         self.player.update()# Update the player
         self.horizontal_movement_collision()# Check for collision with the level tiles

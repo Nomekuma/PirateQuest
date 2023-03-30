@@ -1,6 +1,6 @@
 import sys
 import main # The main function of your game
-
+# ------------------ main ------------------#
 # The major, minor version numbers your require
 MIN_VER = (3, 9)
 # The major, minor version numbers of the current Python interpreter

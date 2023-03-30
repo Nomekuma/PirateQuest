@@ -12,14 +12,14 @@ class ParticleEffect(pygame.sprite.Sprite):# Create a class for the particle eff
             self.frames=import_folder('./assets/art/graphics/character/dust_particles/land')# Import the dust run particles
         self.image=self.frames[self.frame_index]
         self.rect=self.image.get_rect(center=pos)
-           
+    # animation hit_ground       
     def animate(self):
         self.frame_index+=self.animation_speed
         if self.frame_index>=len(self.frames):
             self.kill()# destroy the particle effect/Sprite
         else:
             self.image=self.frames[int(self.frame_index)]
-        
+    # update    
     def update(self,x_shift):
         self.animate()
         self.rect.x+=x_shift
