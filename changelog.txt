@@ -1,0 +1,45 @@
+Date:28/03/2023
+- Complete Screen size setup
+- Complete Tile setup
+level_map = [
+'                            ',
+'                            ',
+'         P                   ',
+' XX   XXXX            XX    ',
+' XX                        ',
+' XXXX         XX         XX ',
+' XXXX       XX              ',
+' XX    X  XXXX    XX  XX    ',
+'       X  XXXX    XX  XXX   ',
+'    XXXX  XXXXXX  XX  XXXX  ',
+'XXXXXXXX  XXXXXX  XX  XXXX  ']
+- Added red(rect) character
+- Character Movement
+- Physics
+
+Date:29/03/2023
+- Made Title Visible(grey_colour)
+- Learn that 'Black' works no need for Black=(0,0,0)
+- Added simple collision
+- Added Character img
+- Change icon
+- Change capsion
+- Character animation(Run only)
+
+Date:30/03/2023
+- Made Character animations more Smooth
+- Added new animation
+- Added Input movement
+| Hoykey | Description |
+| :--: | :--: |
+| leftkey | moves left |
+| rightkey | moves right |
+| Space | jump |
+- Added animation(Idle,run,jump)
+- Added particles to animation
+- made code more readable
+- Improved collision capabilities
+- Improved particles animation
+- run.py 
+
+Date:
