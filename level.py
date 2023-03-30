@@ -108,7 +108,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
                    player.rect.bottom = sprite.rect.top# Move the player to the top of the tile
                    player.direction.y = 0 # Stop the player from moving down
                    player.on_ground = True # The player is on the ground
-
+                #---------------------------------------------
                 elif player.direction.y < 0:# If the player is moving up
                     player.rect.top = sprite.rect.bottom # Move the player to the bottom of the tile
                     player.direction.y = 0 # Stop the player from moving up
