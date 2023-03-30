@@ -54,12 +54,19 @@ class Player(pygame.sprite.Sprite):
             self.image=flipped_img# Set the image to the flipped image
 
         # set the rect
-        if self.on_ground:
+        if self.on_ground and self.on_right:
+            self.rect=self.image.get_rect(bottomright=self.rect.bottomright)# Set the rect to the bottom right of the image
+        elif self.on_ground and self.on_left:
+            self.rect=self.image.get_rect(bottomleft=self.rect.bottomleft)# Set the rect to the bottom left of the image
+        elif self.on_ground:
             self.rect=self.image.get_rect(midbottom=self.rect.midbottom)# Set the rect to the midbottom of the image
+        elif self.on_ceiling and self.on_right:
+            self.rect=self.image.get_rect(topright=self.rect.topright)# Set the rect to the topright of the image
+        elif self.on_ceiling and self.on_left:
+            self.rect=self.image.get_rect(topleft=self.rect.topleft)# Set the rect to the topleft of the image
         elif self.on_ceiling:
-            self.rect=self.image.get_rect(midtop=self.rect.midtop)# Set the rect to the midtop of the image
-        else:
-            self.rect=self.image.get_rect(center=self.rect.center)# Set the rect to the center of the image
+            self.rect=self.image.get_rect(midtop=self.rect.midtop) # Set the rect to the midtop of the image
+        
         
 
     # Get input method
@@ -76,9 +83,8 @@ class Player(pygame.sprite.Sprite):
             self.direction.x=0
         if keys[pygame.K_SPACE] and self.on_ground:# If the space key is pressed
             self.jump()
-        elif keys[pygame.K_a]:
-            self.attack=True
-            self.attacking()
+        
+       
 
     
     def get_status(self):

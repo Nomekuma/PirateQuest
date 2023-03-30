@@ -10,6 +10,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
         #self.level_data=level_data # No need set in seperate attribute
         self.setup_level(level_data)
         self.whorld_shift=0 # The amount of pixels the player moves
+        self.current_x=0 # The current x position of the player
 
     
     def setup_level(self,layout):# layout is the level map
@@ -60,10 +61,20 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
         # Check for collision with the level tiles
         for sprite in self.tiles.sprites():# Loop through all the tiles
             if sprite.rect.colliderect(player.rect):# If the player collides with a tile
-                if player.direction.x > 0:# If the player is moving right
-                    player.rect.right = sprite.rect.left# Move the player to the left of the tile
-                elif player.direction.x < 0: # If the player is moving left
-                    player.rect.left = sprite.rect.right # Move the player to the right of the tile
+                if player.direction.x < 0:# If the player is moving left
+                    player.rect.left = sprite.rect.right
+                    player.on_left=True
+                    self.current_x=player.rect.left
+                elif player.direction.x > 0: # If the player is moving right
+                    player.rect.right = sprite.rect.left 
+                    player.on_right=True
+                    self.current_x=player.rect.right# The current x position of the player
+
+        if player.on_right and (player.rect.right>self.current_x or player.direction.x <=0):# If the player is on the right side of the tile
+            player.on_right=False
+        if player.on_left and (player.rect.left<self.current_x or player.direction.x >=0):
+            player.on_left=False
+        
 
     def vertical_movement_collision(self):# Check for collision with the level tiles vertically
         player=self.player.sprite
