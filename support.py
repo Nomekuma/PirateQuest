@@ -1,6 +1,6 @@
 from os import walk # Import walk method from os module
 import pygame
-
+# path of image folder
 def import_folder(path):# Import folder method
     surface_list=[]# Create a list to hold the surfaces
 
@@ -12,10 +12,7 @@ def import_folder(path):# Import folder method
         
     return surface_list# Return the list
 
-        
-
-    
-#     for info in walk(path):# Loop through the walk method
+        #     for info in walk(path):# Loop through the walk method
 #         print(info)# Print the info
-
+#         loop over the info
 # import_folder('./assets/art/graphics/character/run')# Call the import_folder method

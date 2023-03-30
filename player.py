@@ -1,16 +1,22 @@
 import pygame
 from support import import_folder
-
-
-# Create a class for the player
+# player particle,animation, and movement
 class Player(pygame.sprite.Sprite):
-    def __init__(self,pos):
+    def __init__(self,pos,surface,create_jump_particles):
         super().__init__()
         self.character_assets()# Load the character assets
         self.frame_index=0 # The current frame of the animation
         self.animation_speed=0.12 # The speed of the animation
         self.image=self.animations['idle'][self.frame_index] 
         self.rect=self.image.get_rect(topleft=pos)#Top left = were player spawns
+
+        # Dust particles
+        self.import_dust_run_particles()# Import the dust run particles
+        self.dust_frame_index=0
+        self.dust_animation_speed=0.12
+        self.display_surface=surface# The surface to display the dust particles on
+        self.create_jump_particles=create_jump_particles# Create the jump particles
+
         
         # Player attributes/movement
         self.direction= pygame.math.Vector2(0,0)# Direction the player is moving(vector)
@@ -28,7 +34,9 @@ class Player(pygame.sprite.Sprite):
         self.on_left=False # Is the player on the left
         self.on_right=False # Is the player on the right
         self.attack=False # Is the player attacking
-        
+
+    def import_dust_run_particles(self):# Import the dust run particles
+        self.dust_run_particles=import_folder('./assets/art/graphics/character/dust_particles/run')# Import the dust run particles    
     
     def character_assets(self):# Load the character assets
         character_path='./assets/art/graphics/character/'# Character path
@@ -65,10 +73,22 @@ class Player(pygame.sprite.Sprite):
         elif self.on_ceiling and self.on_left:
             self.rect=self.image.get_rect(topleft=self.rect.topleft)# Set the rect to the topleft of the image
         elif self.on_ceiling:
-            self.rect=self.image.get_rect(midtop=self.rect.midtop) # Set the rect to the midtop of the image
-        
-        
-
+            self.rect=self.image.get_rect(midtop=self.rect.midtop) # Set the rect to the midtop of the image       
+    
+    def run_dust_animation(self):# Run the dust animation
+        if self.status=='run' and self.on_ground:# Not necessary to put self.on_ground as the player can't run in the air but it won't hurt
+            self.dust_frame_index+=self.dust_animation_speed
+            if self.dust_frame_index>=len(self.dust_run_particles):
+                self.dust_frame_index=0
+            
+            dust_particle=self.dust_run_particles[int(self.dust_frame_index)]# Set the dust particle to the current frame of the animation/note: int is used as self.frame_index is a float
+            if self.facing_right:
+                pos= self.rect.bottomleft - pygame.math.Vector2(7,9)# Set the position of the dust particle to the bottom left of the player
+                self.display_surface.blit(dust_particle,pos)
+            else:
+                pos= self.rect.bottomright - pygame.math.Vector2(7,9)# Set the position of the dust particle to the bottom right of the player
+                flipped_dust_particle=pygame.transform.flip(dust_particle,True,False)# Flip the dust particle
+                self.display_surface.blit(flipped_dust_particle,pos)
     # Get input method
     def get_input(self):
         keys=pygame.key.get_pressed()
@@ -83,6 +103,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x=0
         if keys[pygame.K_SPACE] and self.on_ground:# If the space key is pressed
             self.jump()
+            self.create_jump_particles(self.rect.midbottom)# Create the jump particles
         
        
 
@@ -117,4 +138,5 @@ class Player(pygame.sprite.Sprite):
         self.get_input() # Get input method
         self.get_status() # Get status method
         self.animate()
+        self.run_dust_animation()
         

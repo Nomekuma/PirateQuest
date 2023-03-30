@@ -1,10 +1,10 @@
-# Basic level map
+# Basic level map,tiles pixel,screen width and height
 level_map = [
 '                            ',
 '                            ',
-'                            ',
-' XX    XXX            XX    ',
-' XX P                       ',
+'         P                   ',
+' XX   XXXX            XX    ',
+' XX                        ',
 ' XXXX         XX         XX ',
 ' XXXX       XX              ',
 ' XX    X  XXXX    XX  XX    ',
@@ -13,7 +13,7 @@ level_map = [
 'XXXXXXXX  XXXXXX  XX  XXXX  ']
 
 # pixel size of each tile
-tile_size = 64
+tile_size = 55
 width = 1200
 # height is calculated based on the level map/it is relative to the level map
 height = len(level_map) * tile_size # len(level_map) is the number of rows in the level map

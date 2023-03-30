@@ -1,29 +1,22 @@
 import pygame,sys
 from settings import *
 from level import level
-
-
-
 # pygame setup
 pygame.init()
-
 #Screen Size
 width=1200
 height=550
-
 # game fps/frames per second
 fps=60
-
 # create screen
 screen=pygame.display.set_mode((width,height))
 # set caption
 pygame.display.set_caption("TerraBlock")
-icon=pygame.image.load('./assets/art/graphics/icon/hat.png')
+icon=pygame.image.load('./assets/art/graphics/icon/icon.png')
 pygame.display.set_icon(icon)
 # create clock
 clock=pygame.time.Clock()
 level = level(level_map,screen)
-
 # colors
 black=(0,0,0)
 # game loop
@@ -35,8 +28,7 @@ while True:
             sys.exit()
     # draw
     screen.fill(black)
-    level.run()
-    
+    level.run()    
     # update
     pygame.display.update()
     clock.tick(fps)
