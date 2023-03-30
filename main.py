@@ -3,6 +3,7 @@ from settings import *
 from level import level
 
 
+
 # pygame setup
 pygame.init()
 
@@ -15,7 +16,11 @@ fps=60
 
 # create screen
 screen=pygame.display.set_mode((width,height))
+# set caption
 pygame.display.set_caption("TerraBlock")
+icon=pygame.image.load('./assets/art/graphics/icon/hat.png')
+pygame.display.set_icon(icon)
+# create clock
 clock=pygame.time.Clock()
 level = level(level_map,screen)
 

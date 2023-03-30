@@ -34,7 +34,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
                     player_sprite=Player((x,y))
                     self.player.add(player_sprite)
 
-    def horizontal_movement_collision(self):
+    def horizontal_movement_collision(self):# Check for collision with the level tiles
         player=self.player.sprite
         player.rect.x += player.direction.x * player.speed # Move the player 5 pixels to the left/right
         # Check for collision with the level tiles
@@ -45,7 +45,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
                 elif player.direction.x < 0: # If the player is moving left
                     player.rect.left = sprite.rect.right # Move the player to the right of the tile
 
-    def vertical_movement_collision(self):
+    def vertical_movement_collision(self):# Check for collision with the level tiles vertically
         player=self.player.sprite
         player.apply_gravity() # Apply gravity method # Move the player 5 pixels up/down
         # Check for collision with the level tiles
