@@ -1,3 +1,11 @@
+Date:26/03/2023
+- Finding assets
+- Learning pygame
+---------------------------------------------------------------------------------------------------------------
+Date:27/03/2023
+- Planning
+- Research
+---------------------------------------------------------------------------------------------------------------
 Date:28/03/2023
 - Complete Screen size setup
 - Complete Tile setup
@@ -16,7 +24,7 @@ level_map = [
 - Added red(rect) character
 - Character Movement
 - Physics
-
+---------------------------------------------------------------------------------------------------------------
 Date:29/03/2023
 - Made Title Visible(grey_colour)
 - Learn that 'Black' works no need for Black=(0,0,0)
@@ -25,7 +33,7 @@ Date:29/03/2023
 - Change icon
 - Change capsion
 - Character animation(Run only)
-
+---------------------------------------------------------------------------------------------------------------
 Date:30/03/2023
 - Made Character animations more Smooth
 - Added new animation
@@ -40,6 +48,6 @@ Date:30/03/2023
 - made code more readable
 - Improved collision capabilities
 - Improved particles animation
-- run.py 
-
+- Added run.py 
+---------------------------------------------------------------------------------------------------------------
 Date:
