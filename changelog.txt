@@ -8,7 +8,7 @@ Date:27/03/2023
 ---------------------------------------------------------------------------------------------------------------
 Date:28/03/2023
 - Complete Screen size setup
-- Complete Tile setup
+- Complete tile setup
 level_map = [
 '                            ',
 '                            ',
@@ -23,7 +23,8 @@ level_map = [
 'XXXXXXXX  XXXXXX  XX  XXXX  ']
 - Added red(rect) character
 - Character Movement
-- Physics
+- Gravity
+- Physics using pygame.math.vector2
 ---------------------------------------------------------------------------------------------------------------
 Date:29/03/2023
 - Made Title Visible(grey_colour)
@@ -50,4 +51,17 @@ Date:30/03/2023
 - Improved particles animation
 - Added run.py 
 ---------------------------------------------------------------------------------------------------------------
-Date:
+Date:31/03/2023
+- Installed tile map world editor(https://www.mapeditor.org/)
+- How it works when Air(id=-1) and object(id=0),etc
+- create new world set up
+- Added enemy
+- Added coin
+- Character_end/start
+- Eneny_collision
+- Background
+- world generated from by csv(-1)
+- added crate
+- added water
+-----------------------------------------------------------------------------------------------------------------
+Date:01/04/2023

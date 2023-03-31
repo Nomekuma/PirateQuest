@@ -1,11 +1,12 @@
 import pygame,sys
 from settings import *
 from level import level
+from game_data import level_0
 # pygame setup
 pygame.init()
 #Screen Size
-width=1200
-height=550
+width=1280
+height=720
 # game fps/frames per second
 fps=60
 # create screen
@@ -16,7 +17,7 @@ icon=pygame.image.load('./assets/art/graphics/icon/icon.png')
 pygame.display.set_icon(icon)
 # create clock
 clock=pygame.time.Clock()
-level = level(level_map,screen)
+Level = level(level_0,screen)
 # colors
 black=(0,0,0)
 # game loop
@@ -26,9 +27,13 @@ while True:
         if event.type==pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
     # draw
     screen.fill(black)
-    level.run()    
+    Level.run()    
     # update
     pygame.display.update()
     clock.tick(fps)

@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
         if self.frame_index>=len(animation):
             self.frame_index=0
         # Set the image 
-        image=self.image=animation[int(self.frame_index)]# Set the image to the current frame of the animation/note: int is used as self.frame_index is a float
+        image=animation[int(self.frame_index)]# Set the image to the current frame of the animation/note: int is used as self.frame_index is a float
         if self.facing_right:
             self.image=image
         else:                                      #x   #y
@@ -112,7 +112,7 @@ class Player(pygame.sprite.Sprite):
     # Jump method
     def jump(self):
         self.direction.y=self.jump_speed# Set the direction.y to the jump speed       
-# Update method
+    # Update method
     def update(self):
         # Update the player
         self.get_input() # Get input method
