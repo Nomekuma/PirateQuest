@@ -1,5 +1,17 @@
 ## GAME NOT COMPLETED YET
-# To Run game run it through run.py
+# How to Run game  
+
+```
+pip install -r requirements.txt 
+
+```
+*`or`*
+```
+pip install pygame
+```
+* `python run.py` *or* `python main.py`
+
+## How to play
 
 | Hoykey | Description |
 | :--: | :--: |
@@ -7,12 +19,13 @@
 | rightkey | moves right |
 | Space | jump |
 | Esc  | Exits game|
-
+***
 ## How it looks for `now:`
-
+***
 <img width="578" src="https://user-images.githubusercontent.com/122863540/229300662-ccb4bab0-5a94-47ca-a736-ccabe93fee75.png">
 
 ## MAP 
+***
 
 <img width="578" alt="Map" src="https://user-images.githubusercontent.com/122863540/229301084-6331ec66-be58-4bf8-a312-cc5f49c91d70.png">
 
