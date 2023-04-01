@@ -10,8 +10,7 @@
 
 ## How it looks for `now:`
 
-
-![Screenshot (5)](https://user-images.githubusercontent.com/122863540/229300662-ccb4bab0-5a94-47ca-a736-ccabe93fee75.png)
+<img width="578" src="https://user-images.githubusercontent.com/122863540/229300662-ccb4bab0-5a94-47ca-a736-ccabe93fee75.png">
 
 ## MAP 
 
