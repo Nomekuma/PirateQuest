@@ -6,7 +6,7 @@ class Enemy(Animatedtile):
 	def __init__(self,size,x,y):
 		super().__init__(size,x,y,'./assets/art/graphics/enemy/run')
 		self.rect.y += size - self.image.get_size()[1]
-		self.speed = randint(1,4)# Random speed
+		self.speed = randint(1,3)# Random speed
     # move enemy
 	def move(self):
 		self.rect.x += self.speed

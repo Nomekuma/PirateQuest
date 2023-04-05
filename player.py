@@ -1,147 +1,158 @@
-import pygame
+import pygame 
 from support import import_folder
 from math import sin
 # player particle,animation, and movement
 class Player(pygame.sprite.Sprite):
-    def __init__(self,pos,surface,create_jump_particles):
-        super().__init__()
-        self.character_assets()# Load the character assets
-        self.frame_index=0 # The current frame of the animation
-        self.animation_speed=0.12 # The speed of the animation
-        self.image=self.animations['idle'][self.frame_index] 
-        self.rect=self.image.get_rect(topleft=pos)#Top left = were player spawns
-        # Dust particles ---------------------------------------------
-        self.import_dust_run_particles()# Import the dust run particles
-        self.dust_frame_index=0
-        self.dust_animation_speed=0.15
-        self.display_surface=surface# The surface to display the dust particles on
-        self.create_jump_particles=create_jump_particles# Create the jump particles
-        # Player attributes/movement----------------------------------
-        self.direction= pygame.math.Vector2(0,0)# Direction the player is moving(vector)
-        self.speed=7 # Speed of player
-        self.gravity=0.7# Gravity of the player
-        self.jump_speed=-16# Is the player jumping
-        # Player status-----------------------------------------------
-        self.status='idle' # The current status of the player
-        self.facing_right=True # Is the player facing right
-        self.on_ground=False # Is the player on the ground
-        self.on_ceiling=False # Is the player on the ceiling
-        self.on_left=False # Is the player on the left
-        self.on_right=False # Is the player on the right
-        self.attack=False # Is the player attacking
-        # Health management-------------------------------------------
-        self.invincible=False # Is the player invincible
-        self.invincibility_duration=500 # How long the player is invincible for
-        self.hurt_time=0 # The time the player was hurt
-        # Audio-------------------------------------------------------
-        self.jump_sound=pygame.mixer.Sound('./assets/sfx/audio/effects/jump.wav')# Jump sound
-        self.jump_sound.set_volume(0.5)# Set the volume of the jump sound
-        self.hit_sound=pygame.mixer.Sound('./assets/sfx/audio/effects/hit.wav')# Hit sound
-    #path
-    def import_dust_run_particles(self):# Import the dust run particles
-        self.dust_run_particles=import_folder('./assets/art/graphics/character/dust_particles/run')# Import the dust run particles    
-    #path
-    def character_assets(self):# Load the character assets
-        character_path='./assets/art/graphics/character/'# Character path
-        self.animations={'idle':[],'run':[],'jump':[],'fall':[],'attack':[]}# Create a dictionary for the animations
-        # Loop through the animations
-        for animation in self.animations.keys():# Loop through the animations
-            full_path= character_path+ animation# Full path
-            self.animations[animation]=import_folder(full_path)# Load the animation
-    # animation
-    def animate(self):# Animate method
-        animation=self.animations[self.status]
-        #loop over the frame_index
-        self.frame_index+=self.animation_speed
-        if self.frame_index>=len(animation):
-            self.frame_index=0
-        # Set the image 
-        image=animation[int(self.frame_index)]# Set the image to the current frame of the animation/note: int is used as self.frame_index is a float
-        if self.facing_right:
-            self.image=image
-        else:                                      #x   #y
-            flipped_img=pygame.transform.flip(image,True,False)# Flip the image
-            self.image=flipped_img# Set the image to the flipped image
-        # set the rect
-        if self.on_ground and self.on_right:
-            self.rect=self.image.get_rect(bottomright=self.rect.bottomright)# Set the rect to the bottom right of the image
-        elif self.on_ground and self.on_left:
-            self.rect=self.image.get_rect(bottomleft=self.rect.bottomleft)# Set the rect to the bottom left of the image
-        elif self.on_ground:
-            self.rect=self.image.get_rect(midbottom=self.rect.midbottom)# Set the rect to the midbottom of the image
-        elif self.on_ceiling and self.on_right:
-            self.rect=self.image.get_rect(topright=self.rect.topright)# Set the rect to the topright of the image
-        elif self.on_ceiling and self.on_left:
-            self.rect=self.image.get_rect(topleft=self.rect.topleft)# Set the rect to the topleft of the image
-        elif self.on_ceiling:
-            self.rect=self.image.get_rect(midtop=self.rect.midtop) # Set the rect to the midtop of the image       
-    # Run particle animation
-    def run_dust_animation(self):# Run the dust animation
-        if self.status=='run' and self.on_ground:# Not necessary to put self.on_ground as the player can't run in the air but it won't hurt
-            self.dust_frame_index+=self.dust_animation_speed
-            if self.dust_frame_index>=len(self.dust_run_particles):
-                self.dust_frame_index=0
-            # Set the dust particle
-            dust_particle=self.dust_run_particles[int(self.dust_frame_index)]# Set the dust particle to the current frame of the animation/note: int is used as self.frame_index is a float
-            if self.facing_right:
-                pos= self.rect.bottomleft - pygame.math.Vector2(5,6)# Set the position of the dust particle to the bottom left of the player
-                self.display_surface.blit(dust_particle,pos)
-            else:
-                pos= self.rect.bottomright - pygame.math.Vector2(5,6)# Set the position of the dust particle to the bottom right of the player
-                flipped_dust_particle=pygame.transform.flip(dust_particle,True,False)# Flip the dust particle
-                self.display_surface.blit(flipped_dust_particle,pos)
-    # Get input method
-    def get_input(self):
-        keys=pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:# If the left key is pressed
-          self.direction.x=-1
-          self.facing_right=False
-        elif keys[pygame.K_RIGHT]:# If the right key is pressed
-            self.direction.x=1
-            self.facing_right=True
-        else:
-            self.direction.x=0
-        if keys[pygame.K_SPACE] and self.on_ground:# If the space key is pressed
-            self.jump()
-            self.create_jump_particles(self.rect.bottomleft)# Create the jump particles  
-    # status method, identifies the status of the player(idle,run,jump,fall)
-    def get_status(self):
-        if self.direction.y<0:
-            self.status= 'jump'
-        elif self.direction.y>1:# Not zero as it will mess up the animation(greater than gravity)
-            self.status= 'fall'
-        elif self.direction.x!=0:
-            self.status= 'run'
-        else:
-            self.status= 'idle'
-    # Apply gravity method
-    def apply_gravity(self):
-        self.direction.y+=self.gravity# Add gravity to the player
-        self.rect.y+=self.direction.y# Move the player down by the gravity amount   
-    # Jump method
-    def jump(self):
-        self.direction.y=self.jump_speed# Set the direction.y to the jump speed       
-    # damage
-    def damage(self):
-        if not self.invincible:
-            self.hit_sound.play()# Play the hit sound
-            self.health-=10# Take away 10 health
-            self.invincible=True# Set the player to invincible
-            self.hurt_time=pygame.time.get_ticks()# Set the hurt time to the current time
-    def invincibility_timer(self):
-        if self.invincible:
-            if pygame.time.get_ticks()-self.hurt_time>=self.invincibility_duration:
-                self.invincible=False
-    def wave_value(self):
-        value=sin(pygame.time.get_ticks())
-        if value>=0: return 255
-        else: return 0
-       # Update method
-    def update(self):
-        # Update the player
-        self.get_input() # Get input method
-        self.get_status() # Get status method
-        self.animate()
-        self.run_dust_animation()
-        self.invincibility_timer()
-        
+	def __init__(self,pos,surface,create_jump_particles,change_health):
+		super().__init__()
+		self.import_character_assets()# Load the character assets
+		self.frame_index = 0 # The current frame of the animation
+		self.animation_speed = 0.12 # The speed of the animation
+		self.image = self.animations['idle'][self.frame_index]#Top left = were player spawns
+		self.rect = self.image.get_rect(topleft = pos)
+		
+		# dust particles 
+		self.import_dust_run_particles()
+		self.dust_frame_index = 0
+		self.dust_animation_speed = 0.15
+		self.display_surface = surface
+		self.create_jump_particles = create_jump_particles
+
+		# player movement
+		self.direction = pygame.math.Vector2(0,0)
+		self.speed = 8
+		self.gravity = 0.8
+		self.jump_speed = -16
+		self.collision_rect = pygame.Rect(self.rect.topleft,(50,self.rect.height))
+
+		# player status
+		self.status = 'idle'
+		self.facing_right = True
+		self.on_ground = False
+		self.on_ceiling = False
+		self.on_left = False
+		self.on_right = False
+
+		# health management
+		self.change_health = change_health
+		self.invincible = False
+		self.invincibility_duration = 500
+		self.hurt_time = 0
+
+		# audio 
+		self.jump_sound = pygame.mixer.Sound('./assets/sfx/audio/effects/jump.wav')
+		self.jump_sound.set_volume(0.5)
+		self.hit_sound = pygame.mixer.Sound('./assets/sfx/audio/effects/hit.wav')
+
+	def import_character_assets(self):
+		character_path = './assets/art/graphics/character/'
+		self.animations = {'idle':[],'run':[],'jump':[],'fall':[]}# removed ['attack]
+
+		for animation in self.animations.keys():
+			full_path = character_path + animation
+			self.animations[animation] = import_folder(full_path)
+
+	def import_dust_run_particles(self):
+		self.dust_run_particles = import_folder('./assets/art/graphics/character/dust_particles/run')
+
+	def animate(self):
+		animation = self.animations[self.status]
+
+		# loop over frame index 
+		self.frame_index += self.animation_speed
+		if self.frame_index >= len(animation):
+			self.frame_index = 0
+
+		image = animation[int(self.frame_index)]
+		if self.facing_right:
+			self.image = image
+			self.rect.bottomleft = self.collision_rect.bottomleft
+		else:
+			flipped_image = pygame.transform.flip(image,True,False)
+			self.image = flipped_image
+			self.rect.bottomright = self.collision_rect.bottomright
+
+		if self.invincible:
+			alpha = self.wave_value()
+			self.image.set_alpha(alpha)
+		else:
+			self.image.set_alpha(255)
+
+		self.rect = self.image.get_rect(midbottom = self.rect.midbottom)		
+
+	def run_dust_animation(self):
+		if self.status == 'run' and self.on_ground:
+			self.dust_frame_index += self.dust_animation_speed
+			if self.dust_frame_index >= len(self.dust_run_particles):
+				self.dust_frame_index = 0
+
+			dust_particle = self.dust_run_particles[int(self.dust_frame_index)]
+
+			if self.facing_right:
+				pos = self.rect.bottomleft - pygame.math.Vector2(6,10)
+				self.display_surface.blit(dust_particle,pos)
+			else:
+				pos = self.rect.bottomright - pygame.math.Vector2(6,10)
+				flipped_dust_particle = pygame.transform.flip(dust_particle,True,False)
+				self.display_surface.blit(flipped_dust_particle,pos)
+
+	def get_input(self):
+		keys = pygame.key.get_pressed()
+
+		if keys[pygame.K_RIGHT]:
+			self.direction.x = 1
+			self.facing_right = True
+		elif keys[pygame.K_LEFT]:
+			self.direction.x = -1
+			self.facing_right = False
+		else:
+			self.direction.x = 0
+
+		if keys[pygame.K_SPACE] and self.on_ground:
+			self.jump()
+			self.create_jump_particles(self.rect.midbottom)
+
+	def get_status(self):
+		if self.direction.y < 0:
+			self.status = 'jump'
+		elif self.direction.y > 1:
+			self.status = 'fall'
+		else:
+			if self.direction.x != 0:
+				self.status = 'run'
+			else:
+				self.status = 'idle'
+
+	def apply_gravity(self):
+		self.direction.y += self.gravity
+		self.collision_rect.y += self.direction.y
+
+	def jump(self):
+		self.direction.y = self.jump_speed
+		self.jump_sound.play()
+
+	def get_damage(self):
+		if not self.invincible:
+			self.hit_sound.play()
+			self.change_health(-10)
+			self.invincible = True
+			self.hurt_time = pygame.time.get_ticks()
+
+	def invincibility_timer(self):
+		if self.invincible:
+			current_time = pygame.time.get_ticks()
+			if current_time - self.hurt_time >= self.invincibility_duration:
+				self.invincible = False
+
+	def wave_value(self):
+		value = sin(pygame.time.get_ticks())
+		if value >= 0: return 255
+		else: return 0
+
+	def update(self):
+		self.get_input()
+		self.get_status()
+		self.animate()
+		self.run_dust_animation()
+		self.invincibility_timer()
+		self.wave_value()
