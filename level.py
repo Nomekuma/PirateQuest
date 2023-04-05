@@ -1,4 +1,4 @@
-import pygame
+import pygame,sys
 from world_tile import tile,Statictile,Crate,Coin,Palm
 from settings import tile_size,width,height
 from player import Player
@@ -8,12 +8,16 @@ from enemy import Enemy
 from decoration import Sky,Water,Clouds
 # level,player,particles
 class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init__ method
-	def __init__(self,level_data,surface):# level_data is the level map
+	def __init__(self,level_data,surface,change_coins,change_health):# level_data is the level map
 		# general setup
 		self.display_surface = surface
 		#self.level_data=level_data # No need set in seperate attribute
 		self.world_shift = 0 # The amount of pixels the player moves
 		self.current_x = None # The current x position of the player
+
+		# audio setup
+		self.coin_sound = pygame.mixer.Sound('./assets/sfx/audio/effects/coin.wav')
+		self.stomp_sound = pygame.mixer.Sound('./assets/sfx/audio/effects/stomp.wav')
 
 		# player 
 		player_layout = import_csv_layout(level_data['player'])
@@ -21,9 +25,15 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
 		self.goal = pygame.sprite.GroupSingle()
 		self.player_setup(player_layout)
 
+		# user interface
+		self.change_coins = change_coins
+
 		# dust 
 		self.dust_sprite = pygame.sprite.GroupSingle()
 		self.player_on_ground = False
+
+		# explosion particles
+		self.explosion_sprite = pygame.sprite.GroupSingle()
 
 		# terrain setup
 		terrain_layout = import_csv_layout(level_data['terrain'])
@@ -59,7 +69,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
 
 		# decoration 
 		self.sky = Sky(8)
-		level_width = len(terrain_layout[0]) * tile_size
+		level_width = len(terrain_layout[0]) * tile_size #  first row multiplied by tile size
 		self.water = Water(height - 20,level_width)
 		self.clouds = Clouds(400,level_width,30)
     # this is the function that creates the tile group
@@ -90,8 +100,8 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
 						if val == '1': sprite = Coin(tile_size,x,y,'./assets/art/graphics/coins/silver')
 
 					if type == 'fg palms':
-						if val == '0': sprite = Palm(tile_size,x,y,'./assets/art/graphics/terrain/palm_small',38)
-						if val == '1': sprite = Palm(tile_size,x,y,'./assets/art/graphics/terrain/palm_large',64)
+						if val == '0': sprite = Palm(tile_size/2,x,y,'./assets/art/graphics/terrain/palm_small',32)
+						if val == '1': sprite = Palm(tile_size-25,x,y,'./assets/art/graphics/terrain/palm_large',64)
 
 					if type == 'bg palms':
 						sprite = Palm(tile_size,x,y,'./assets/art/graphics/terrain/palm_bg',64)
@@ -186,7 +196,7 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
 			player.speed = 0
 		else:
 			self.world_shift = 0
-			player.speed = 8
+			player.speed = 7
     # When player hits the ground
 	def get_player_on_ground(self):
 		if self.player.sprite.on_ground:
@@ -202,6 +212,40 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
 				offset = pygame.math.Vector2(-10,15)
 			fall_dust_particle = ParticleEffect(self.player.sprite.rect.midbottom - offset,'land')
 			self.dust_sprite.add(fall_dust_particle)
+	# death
+	def death(self):
+		if self.player.sprite.rect.top > height:
+			self.player.sprite.kill()
+			sys.exit()
+	def check_for_win(self):
+		if pygame.sprite.spritecollide(self.player.sprite,self.goal,False):
+			self.player.sprite.kill()
+			sys.exit()
+	def coin_collision(self):
+		collided_coins=pygame.sprite.spritecollide(self.player.sprite,self.coin_sprites,True)
+		if collided_coins:
+			self.coin_sound.play()
+			for coin in collided_coins:
+				self.change_coins += coin.value
+	
+	def enemy_collision(self):
+		enemy_collision = pygame.sprite.spritecollide(self.player.sprite,self.enemy_sprites,False)
+		if enemy_collision:
+			for enemy in enemy_collision:
+				enemy_center=enemy.rect.center
+				enemy_top=enemy.rect.top
+				player_bottom=self.player.sprite.rect.bottom
+				if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y > 0:
+					self.stomp_sound.play()
+					self.player.sprite.direction.y = -10
+					explosive_sprite= ParticleEffect(enemy.rect.center,'explosion')
+					self.explosive_sprite.add(explosive_sprite)
+					enemy.kill()
+				else:
+					self.player.sprite.damage(1)
+
+			
+
     # Run the game
 	def run(self):
 		# sky 
@@ -254,6 +298,13 @@ class level(): # No need to inherit from pygame.sprite.Sprite/But we need __init
 		self.player.draw(self.display_surface)
 		self.goal.update(self.world_shift)
 		self.goal.draw(self.display_surface)
-
+		# enemy collision
+		self.enemy_collision()
+		# coin collision
+		self.coin_collision()
+		# death
+		self.death()
+		# win
+		self.check_for_win()
 		# water 
 		self.water.draw(self.display_surface,self.world_shift)

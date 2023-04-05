@@ -1,5 +1,6 @@
 import pygame
 from support import import_folder
+from math import sin
 # player particle,animation, and movement
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,surface,create_jump_particles):
@@ -12,14 +13,14 @@ class Player(pygame.sprite.Sprite):
         # Dust particles ---------------------------------------------
         self.import_dust_run_particles()# Import the dust run particles
         self.dust_frame_index=0
-        self.dust_animation_speed=0.12
+        self.dust_animation_speed=0.15
         self.display_surface=surface# The surface to display the dust particles on
         self.create_jump_particles=create_jump_particles# Create the jump particles
         # Player attributes/movement----------------------------------
         self.direction= pygame.math.Vector2(0,0)# Direction the player is moving(vector)
-        self.speed=5 # Speed of the player
-        self.gravity=0.7 # Gravity of the player
-        self.jump_speed=-15# Is the player jumping
+        self.speed=7 # Speed of player
+        self.gravity=0.7# Gravity of the player
+        self.jump_speed=-16# Is the player jumping
         # Player status-----------------------------------------------
         self.status='idle' # The current status of the player
         self.facing_right=True # Is the player facing right
@@ -28,6 +29,14 @@ class Player(pygame.sprite.Sprite):
         self.on_left=False # Is the player on the left
         self.on_right=False # Is the player on the right
         self.attack=False # Is the player attacking
+        # Health management-------------------------------------------
+        self.invincible=False # Is the player invincible
+        self.invincibility_duration=500 # How long the player is invincible for
+        self.hurt_time=0 # The time the player was hurt
+        # Audio-------------------------------------------------------
+        self.jump_sound=pygame.mixer.Sound('./assets/sfx/audio/effects/jump.wav')# Jump sound
+        self.jump_sound.set_volume(0.5)# Set the volume of the jump sound
+        self.hit_sound=pygame.mixer.Sound('./assets/sfx/audio/effects/hit.wav')# Hit sound
     #path
     def import_dust_run_particles(self):# Import the dust run particles
         self.dust_run_particles=import_folder('./assets/art/graphics/character/dust_particles/run')# Import the dust run particles    
@@ -75,10 +84,10 @@ class Player(pygame.sprite.Sprite):
             # Set the dust particle
             dust_particle=self.dust_run_particles[int(self.dust_frame_index)]# Set the dust particle to the current frame of the animation/note: int is used as self.frame_index is a float
             if self.facing_right:
-                pos= self.rect.bottomleft - pygame.math.Vector2(7,9)# Set the position of the dust particle to the bottom left of the player
+                pos= self.rect.bottomleft - pygame.math.Vector2(5,6)# Set the position of the dust particle to the bottom left of the player
                 self.display_surface.blit(dust_particle,pos)
             else:
-                pos= self.rect.bottomright - pygame.math.Vector2(7,9)# Set the position of the dust particle to the bottom right of the player
+                pos= self.rect.bottomright - pygame.math.Vector2(5,6)# Set the position of the dust particle to the bottom right of the player
                 flipped_dust_particle=pygame.transform.flip(dust_particle,True,False)# Flip the dust particle
                 self.display_surface.blit(flipped_dust_particle,pos)
     # Get input method
@@ -94,7 +103,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x=0
         if keys[pygame.K_SPACE] and self.on_ground:# If the space key is pressed
             self.jump()
-            self.create_jump_particles(self.rect.midbottom)# Create the jump particles  
+            self.create_jump_particles(self.rect.bottomleft)# Create the jump particles  
     # status method, identifies the status of the player(idle,run,jump,fall)
     def get_status(self):
         if self.direction.y<0:
@@ -112,11 +121,27 @@ class Player(pygame.sprite.Sprite):
     # Jump method
     def jump(self):
         self.direction.y=self.jump_speed# Set the direction.y to the jump speed       
-    # Update method
+    # damage
+    def damage(self):
+        if not self.invincible:
+            self.hit_sound.play()# Play the hit sound
+            self.health-=10# Take away 10 health
+            self.invincible=True# Set the player to invincible
+            self.hurt_time=pygame.time.get_ticks()# Set the hurt time to the current time
+    def invincibility_timer(self):
+        if self.invincible:
+            if pygame.time.get_ticks()-self.hurt_time>=self.invincibility_duration:
+                self.invincible=False
+    def wave_value(self):
+        value=sin(pygame.time.get_ticks())
+        if value>=0: return 255
+        else: return 0
+       # Update method
     def update(self):
         # Update the player
         self.get_input() # Get input method
         self.get_status() # Get status method
         self.animate()
         self.run_dust_animation()
+        self.invincibility_timer()
         
