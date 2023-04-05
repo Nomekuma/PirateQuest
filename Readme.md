@@ -21,6 +21,8 @@ pip install pygame
 ## How it looks for `now:`
 ***
 
+<img width="578" alt="lvl1" src="">
+
 
 ## MAP 
 ***
