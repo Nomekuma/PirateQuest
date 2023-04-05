@@ -22,7 +22,7 @@ level_1 = {'terrain': './assets/art/levels/0/level_0._terrain.csv',
 		'grass': './assets/art/levels/0/level_0._grass.csv',
 		'node_pos': (400,400),
 		'unlock': 1,
-		'node_graphics': './assets/art/graphics/overworld/1'
+		'node_graphics': './assets/art/graphics/overworld/2'
 }
 
 
