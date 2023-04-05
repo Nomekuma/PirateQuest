@@ -3,6 +3,7 @@ from settings import *
 from level import Level
 from overworld import Overworld
 from ui import UI
+from save import SaveGame
 
 class Game:
 	def __init__(self):
@@ -65,6 +66,7 @@ class Game:
 			self.ui.show_coins(self.coins)
 			self.check_game_over()
 
+
 # pygame setup
 pygame.init()
 #Screen Size
@@ -86,10 +88,12 @@ while True:
 	# event loop
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
+			SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins)
 			pygame.quit()
 			sys.exit()
 		if event.type==pygame.KEYDOWN:
 			if event.key==pygame.K_ESCAPE:
+				SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins)
 				pygame.quit()
 				sys.exit()
             
