@@ -3,7 +3,6 @@
 
 ```
 pip install -r requirements.txt 
-
 ```
 *`or`*
 ```
