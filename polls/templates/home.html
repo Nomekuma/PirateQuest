@@ -26,8 +26,8 @@
  <tr>
 
 
- 
-
+ <th>#</th>
+  
  <th>Name</th>
 
  <th>coins</th>
@@ -36,14 +36,17 @@
 
  <th>Health_after_game</th>
 
- <th>Level</th>
+ <th>level</th>
+
 
  </tr>
 
-
+ {% for i in save %}
   <tr>
-  {% for i in save %}
  
+ 
+
+ <td>{{i.id}}</td>
 
  <td>{{i.name}}</td>
 
@@ -53,9 +56,10 @@
 
  <td>{{i.cur_health}}</td>
 
- <td>{{i.level}}</td>
-{% endfor %}
+ <td>{{i.max_level}}</td> 
+
  </tr>
+ {% endfor %}
  
 
 

@@ -8,6 +8,7 @@ from save import SaveGame
 class Game:
 	def __init__(self):
 		self.player_name=None
+		self.player_id=None
 
 		# game attributes
 		self.max_level = 0
@@ -27,6 +28,7 @@ class Game:
 		# user interface 
 		self.ui = UI(screen)
 	def get_player_name(self):
+		
 		while not self.player_name:
 			name = input("Enter your name: ")
 			if name:
@@ -95,12 +97,12 @@ while True:
 	# event loop
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_name)
+			SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_name,game.player_id)
 			pygame.quit()
 			sys.exit()
 		if event.type==pygame.KEYDOWN:
 			if event.key==pygame.K_ESCAPE:
-				SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_name)
+				SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_name,game.player_id)
 				pygame.quit()
 				sys.exit()
             

@@ -8,8 +8,8 @@ class SaveGame:
         self.c.execute('''CREATE TABLE IF NOT EXISTS save (max_level, max_health, cur_health, coins,name,id INTEGER PRIMARY KEY AUTOINCREMENT)''')
         self.conn.commit()
 
-    def save(self, max_level, max_health, cur_health, coins,name):
-        self.c.execute('''INSERT INTO save VALUES (?, ?, ?, ?,?)''', (max_level, max_health, cur_health, coins,name))
+    def save(self, max_level, max_health, cur_health, coins,name,id):
+        self.c.execute('''INSERT INTO save VALUES (?, ?, ?, ?,?,?)''', (max_level, max_health, cur_health, coins,name,id))
         self.conn.commit()
 
     def load(self):
