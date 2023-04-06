@@ -5,11 +5,11 @@ class SaveGame:
     def __init__(self):
         self.conn = sqlite3.connect('save.db')
         self.c = self.conn.cursor()
-        self.c.execute('''CREATE TABLE IF NOT EXISTS save (max_level, max_health, cur_health, coins)''')
+        self.c.execute('''CREATE TABLE IF NOT EXISTS save (max_level, max_health, cur_health, coins,name)''')
         self.conn.commit()
 
-    def save(self, max_level, max_health, cur_health, coins):
-        self.c.execute('''INSERT INTO save VALUES (?, ?, ?, ?)''', (max_level, max_health, cur_health, coins))
+    def save(self, max_level, max_health, cur_health, coins,name):
+        self.c.execute('''INSERT INTO save VALUES (?, ?, ?, ?,?)''', (max_level, max_health, cur_health, coins,name))
         self.conn.commit()
 
     def load(self):
