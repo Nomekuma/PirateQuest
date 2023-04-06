@@ -1,23 +1,69 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!DOCTYPE html>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<html>
 
-    <title>Home Page</title>
-  </head>
-  <body>
-    <h1>Home Page</h1>
-    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+<head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+ <title>Table layout</title>
+
+
+
+</head>
+
+<body>
+
+
+  <div class="filter">
+
+ </div>
+
+ <table >
+
+ 
+
+ <tr>
+
+
+ 
+
+ <th>Name</th>
+
+ <th>coins</th>
+
+ <th>Max_health</th>
+
+ <th>Health_after_game</th>
+
+ <th>Level</th>
+
+ </tr>
+
+
+  <tr>
+  {% for i in save %}
+ 
+
+ <td>{{i.name}}</td>
+
+ <td>{{i.coins}}</td>
+
+ <td>{{i.max_health}}</td>
+
+ <td>{{i.cur_health}}</td>
+
+ <td>{{i.level}}</td>
+{% endfor %}
+ </tr>
+ 
+
+
+ </tr>
+
+ </table>
+
+
+ </body>
+
 </html>

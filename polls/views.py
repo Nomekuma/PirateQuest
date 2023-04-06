@@ -1,11 +1,14 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
+from .models import Save
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='login')
 def HomePage(request):
-    return render (request,'home.html')
+    save=Save.objects.all()
+    context={'save':save}
+    return render (request,'home.html',context)
 
 def SignupPage(request):
     if request.method=='POST':
