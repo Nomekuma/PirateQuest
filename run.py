@@ -1,5 +1,6 @@
 import sys
 import main # The main function of your game
+# Remeber to add name in terminal after running the game
 # ------------------ main ------------------#
 # The major, minor version numbers your require
 MIN_VER = (3, 9)
