@@ -9,6 +9,17 @@ pip install pygame
 ```
 * `python run.py` *or* `python main.py`
 
+# To run server
+* `first`
+```
+py manage.py makemigrations
+py manage.py migrate
+```
+* `then`
+```
+py manage.py runserver
+```
+
 ## How to play
 
 | Hoykey | Description |
