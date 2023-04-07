@@ -11,10 +11,10 @@
  bottom: 0;
  right: 0;
  z-index: 1;
- background: rgb(233,76,161);
-background: -moz-linear-gradient(90deg, rgba(233,76,161,1) 0%, rgba(199,74,233,1) 100%);
-background: -webkit-linear-gradient(90deg, rgba(233,76,161,1) 0%, rgba(199,74,233,1) 100%);
-background: linear-gradient(90deg, rgba(233,76,161,1) 0%, rgba(199,74,233,1) 100%);
+ background: rgb(0, 0, 255);
+background: -moz-linear-gradient(90deg, rgba(20, 33, 215) 0%, #201271 100%);
+background: -webkit-linear-gradient(90deg, rgba(20, 33, 215) 0%, rgba(20, 33, 215) 100%);
+background: linear-gradient(90deg, rgb(20, 33, 215) 0%, rgba(20, 33, 215) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e94ca1",endColorstr="#c74ae9",GradientType=1);
 opacity: .7;
 }
@@ -39,7 +39,7 @@ td , th{
 
 }
 th{
- background-color: #ba68c8;
+ background-color: #0a1c8c;
  color: #fafafa;
  font-family: 'Open Sans',Sans-serif;
  font-weight: 200;
@@ -56,11 +56,3 @@ tr:nth-child(even){
 }
 
 
-/* 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<title>Home Page</title>
-</head>
-<body>
-<h1>Home Page</h1>
-<a href="{% url 'logout' %}" class="btn btn-primary">Logout</a> */
