@@ -4,10 +4,10 @@ from level import Level
 from overworld import Overworld
 from ui import UI
 from save import SaveGame
-# Note you will have to put your name on terminal first then the game will start
+
 class Game:
 	def __init__(self):
-		self.player_name=None
+		# self.player_name=None
 		self.player_id=None
 
 		# game attributes
@@ -27,12 +27,12 @@ class Game:
 
 		# user interface 
 		self.ui = UI(screen)
-	def get_player_name(self):
+	# def get_player_name(self): # if you want to add user name on terminal 
 		
-		while not self.player_name:
-			name = input("Enter your name: ")
-			if name:
-				self.player_name = name
+	# 	while not self.player_name:
+	# 		name = input("Enter your name: ")
+	# 		if name:
+	# 			self.player_name = name
 
 
 	def create_level(self,current_level):
@@ -66,7 +66,7 @@ class Game:
 			self.overworld_bg_music.play(loops = -1)
 
 	def run(self):
-		self.get_player_name()
+		# self.get_player_name()
 		if self.status == 'overworld':
 			self.overworld.run()
 		else:
@@ -97,12 +97,12 @@ while True:
 	# event loop
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_name,game.player_id)
+			SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_id)#add game.player_name if you want name
 			pygame.quit()
 			sys.exit()
 		if event.type==pygame.KEYDOWN:
 			if event.key==pygame.K_ESCAPE:
-				SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_name,game.player_id)
+				SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_id)#add game.player_name if you want name
 				pygame.quit()
 				sys.exit()
             
