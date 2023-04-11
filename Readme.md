@@ -13,6 +13,9 @@ pip install -r requirements.txt
 ```
 pip install pygame
 ```
+
+# To run game
+
 * `python run.py` *or* `python main.py`
 
 # To run server
