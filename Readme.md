@@ -1,34 +1,3 @@
-# How to Run game  
-
-* `first`
-` create a .env file and then add this code to it `
-```
-SECRET_KEY='^l3mcn)yoaee^t=kipyubgsw2v_ua+!x=t==j1ak!lubwh^&44'
-```
-
-```
-pip install -r requirements.txt 
-```
-*`or`*
-```
-pip install pygame
-```
-
-# To run game
-
-* `python run.py` *or* `python main.py`
-
-# To run server
-* `first`
-```
-py manage.py makemigrations
-py manage.py migrate
-```
-* `then`
-```
-py manage.py runserver
-```
-
 ## How to play
 
 | Hoykey | Description |

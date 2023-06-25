@@ -3,7 +3,7 @@ from settings import *
 from level import Level
 from overworld import Overworld
 from ui import UI
-from save import SaveGame
+
 
 class Game:
 	def __init__(self):
@@ -27,12 +27,7 @@ class Game:
 
 		# user interface 
 		self.ui = UI(screen)
-	# def get_player_name(self): # if you want to add user name on terminal 
-		
-	# 	while not self.player_name:
-	# 		name = input("Enter your name: ")
-	# 		if name:
-	# 			self.player_name = name
+	
 
 
 	def create_level(self,current_level):
@@ -86,7 +81,7 @@ fps=60
 # create screen
 screen=pygame.display.set_mode((width,height))
 # set caption
-pygame.display.set_caption("TerraBlock")
+pygame.display.set_caption("PirateQuest")
 icon=pygame.image.load('./assets/art/graphics/icon/icon.png')
 pygame.display.set_icon(icon)
 # create clock
@@ -97,12 +92,10 @@ while True:
 	# event loop
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_id)#add game.player_name if you want name
 			pygame.quit()
 			sys.exit()
 		if event.type==pygame.KEYDOWN:
 			if event.key==pygame.K_ESCAPE:
-				SaveGame().save(game.max_level,game.max_health,game.cur_health,game.coins,game.player_id)#add game.player_name if you want name
 				pygame.quit()
 				sys.exit()
             
